@@ -62,7 +62,6 @@ while True:
 
             # Or instead, use the known face with the smallest distance to the new face
             face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-            print(face_distances)
             score = 0
             for value in face_distances:
                 score = score + value
@@ -95,7 +94,6 @@ while True:
     # Display the resulting image
     cv2.imshow('Who am I?', frame)
     end_time = current_sec_time()
-    print("frame time " + str((end_time - start_time) / 1000) + "s")
 
     # Hit 'q' on the keyboard to quit!
     if cv2.waitKey(1) & 0xFF == ord('q'):
