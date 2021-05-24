@@ -9,21 +9,22 @@ video_capture = cv2.VideoCapture(0)
 known_face_encodings = []
 known_face_names = []
 
+
 def current_sec_time():
     return round(time.time() * 1000)
+
 
 print("########################################")
 start_time = current_sec_time();
 
 # Load face encodings
 with open('assets/dataset_faces.dat', 'rb') as f:
-	all_face_encodings = pickle.load(f)
+    all_face_encodings = pickle.load(f)
 known_face_names = list(all_face_encodings.keys())
 known_face_encodings = np.array(list(all_face_encodings.values()))
 
-
 end_time = current_sec_time()
-print("init time " + str((end_time-start_time)/1000) + "s")
+print("init time " + str((end_time - start_time) / 1000) + "s")
 print("########################################")
 
 # Initialize some variables
@@ -54,7 +55,6 @@ while True:
             # See if the face is a match for the known face(s)
             matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
             name = "Unknown"
-
             # # If a match was found in known_face_encodings, just use the first one.
             # if True in matches:
             #     first_match_index = matches.index(True)
@@ -62,6 +62,12 @@ while True:
 
             # Or instead, use the known face with the smallest distance to the new face
             face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
+            print(face_distances)
+            score = 0
+            for value in face_distances:
+                score = score + value
+            score = score / 23
+            score = round(score, 2) * 100
             best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
                 name = known_face_names[best_match_index]
@@ -79,12 +85,12 @@ while True:
         left *= 4
 
         # Draw a box around the face
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 5)
+        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
 
         # Draw a label with a name below the face
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+        cv2.putText(frame, name + " " + str(int(score)) + "%", (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
     # Display the resulting image
     cv2.imshow('Who am I?', frame)
