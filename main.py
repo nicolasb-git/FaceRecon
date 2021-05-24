@@ -96,7 +96,7 @@ while True:
     end_time = current_sec_time()
 
     # Hit 'q' on the keyboard to quit!
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == 27:
         break
 
 # Release handle to the webcam
