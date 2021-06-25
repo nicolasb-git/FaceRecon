@@ -5,6 +5,8 @@ import numpy as np
 import pickle
 
 video_capture = cv2.VideoCapture(0)
+#video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+#video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 
 known_face_encodings = []
 known_face_names = []
